@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f8f4">
+    <meta name="description" content="Explore an interactive farm digital twin and plot-by-plot irrigation decisions.">
+    <title>Field Atlas · Farm digital twin</title>
+    <script type="module" crossorigin src="./assets/index-BjXCrQXu.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B1fOAMUg.css">
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to farm overview</a>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#main"><span class="brand-icon" id="brand-icon"></span>Field Atlas</a>
+        <nav class="site-nav" aria-label="Dashboard sections">
+          <a href="#main" aria-current="location">Farm overview</a>
+          <a href="#trends">Plot trends</a>
+          <a href="#plan">Irrigation plan</a>
+        </nav>
+        <div class="topbar-meta"><span class="data-badge"><i></i> Demo data</span></div>
+      </div>
+    </header>
+    <main id="main" class="workspace">
+      <section class="farm-heading" aria-labelledby="farm-name">
+        <div>
+          <p class="eyebrow"><span id="farm-icon"></span> Farm digital twin</p>
+          <h1 id="farm-name"></h1>
+          <p id="farm-meta" class="farm-meta"></p>
+        </div>
+        <div class="farm-heading-actions">
+          <button type="button" class="secondary-button" id="return-preset" hidden>Open preset farm</button>
+          <div class="date-card">
+            <span id="date-icon" aria-hidden="true"></span>
+            <div>
+              <label for="scenario-date">Scenario date</label>
+              <input id="scenario-date" type="date" min="0005-01-01" max="9999-12-16" required>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="overview">
+        <section class="card map-card" aria-labelledby="map-heading">
+          <div class="map-header">
+            <div>
+              <h2 id="map-heading">Farm map</h2>
+              <p id="map-caption">Select a plot to inspect its conditions.</p>
+            </div>
+            <div class="map-heading-actions">
+              <fieldset class="segmented" id="map-perspective" aria-label="Map perspective">
+                <legend class="sr-only">Map perspective</legend>
+                <label><input type="radio" name="perspective" value="2d"><span>2D</span></label>
+                <label><input type="radio" name="perspective" value="3d" checked><span>3D</span></label>
+              </fieldset>
+              <button type="button" class="secondary-button" id="map-mode" aria-controls="geo-panel" aria-expanded="false">Explore real map</button>
+            </div>
+          </div>
+          <div class="map-viewport" id="terrain-panel">
+            <canvas id="farm-map" role="img" aria-label="H3 map of the demo farm. Use the plot selector to choose a plot by keyboard." aria-describedby="map-caption"></canvas>
+            <div class="map-layer">
+              <label for="map-layer">Map layer</label>
+              <select id="map-layer"><option value="moisture">Soil moisture</option><option value="crop">Crop type</option><option value="management" id="management-layer" hidden>Management plots</option></select>
+            </div>
+            <div class="map-zoom" aria-label="Map zoom">
+              <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+              <button type="button" id="zoom-out" aria-label="Zoom out">−</button>
+              <button type="button" id="zoom-reset" aria-label="Reset zoom">↺</button>
+            </div>
+            <div class="compass" aria-hidden="true"><span>N</span><b>↑</b></div>
+            <div class="map-legend" id="map-legend"></div>
+          </div>
+          <div id="geo-panel" class="geo-panel" data-basemap="satellite" hidden>
+            <div class="farm-tools">
+              <div class="farm-library">
+                <label class="sr-only" for="saved-farm">Saved farms</label>
+                <select id="saved-farm"><option value="">Saved farms</option></select>
+                <button type="button" class="secondary-button" id="draw-farm">Draw boundary</button>
+              </div>
+              <div class="farm-file-actions">
+                <button type="button" class="text-button" id="import-farm">Import JSON</button>
+                <input id="farm-file" type="file" accept=".json,application/json" hidden>
+                <button type="button" class="text-button" id="export-farm" hidden>Export farm</button>
+              </div>
+            </div>
+            <div class="geo-search-controls">
+              <form id="geo-search" class="geo-search">
+                <label for="geo-query" class="sr-only">Search place name or latitude, longitude</label>
+                <input id="geo-query" placeholder="Place name or lat, lon" type="search" maxlength="120" required>
+                <button type="submit" class="secondary-button">Search</button>
+              </form>
+              <button type="button" id="use-center" class="primary-button">Use map center</button>
+            </div>
+            <div id="geo-results" class="geo-results" hidden></div>
+            <p class="geo-status" id="geo-status" role="status"></p>
+            <div class="boundary-tools" id="boundary-tools" hidden>
+              <p id="boundary-hint"></p>
+              <div class="boundary-actions">
+                <button type="button" class="secondary-button" id="add-vertex">Add map center</button>
+                <button type="button" class="secondary-button" id="undo-vertex">Undo corner</button>
+                <button type="button" class="primary-button" id="finish-boundary">Finish outline</button>
+                <button type="button" class="text-button" id="cancel-boundary">Cancel</button>
+              </div>
+              <form id="save-farm" hidden>
+                <label>Farm name <input name="name" maxlength="80" required placeholder="e.g. North farm"></label>
+                <label>H3 resolution <select name="resolution" aria-label="New farm H3 resolution"></select></label>
+                <button class="primary-button" type="submit">Save farm</button>
+                <button class="text-button" type="button" id="resume-boundary">Edit outline</button>
+              </form>
+            </div>
+            <div class="farm-settings" id="farm-settings" hidden>
+              <label for="farm-resolution">H3 resolution</label>
+              <select id="farm-resolution"></select>
+              <button type="button" class="secondary-button" id="group-cells" aria-expanded="false" aria-controls="group-form">Group cells</button>
+              <form id="group-form" hidden>
+                <label>Management plot <input id="group-name" name="group" list="management-plots" maxlength="60" required placeholder="Plot name"></label>
+                <span id="group-count" role="status"></span>
+                <button type="button" class="secondary-button" id="toggle-group-cell">Toggle selected cell</button>
+                <button type="submit" class="primary-button">Assign cells</button>
+                <button type="button" class="text-button" id="cancel-group">Cancel</button>
+              </form>
+            </div>
+            <div class="geo-map-shell">
+              <div id="geographic-map" aria-label="Geographic farm explorer"></div>
+              <fieldset class="segmented geo-basemap" aria-label="Basemap">
+                <legend class="sr-only">Basemap</legend>
+                <label><input type="radio" name="geo-basemap" value="satellite" checked><span>Satellite</span></label>
+                <label><input type="radio" name="geo-basemap" value="streets"><span>Streets</span></label>
+              </fieldset>
+              <div class="geo-crosshair" aria-hidden="true"></div>
+            </div>
+            <div class="geo-footnote">
+              <span id="geo-coordinates"></span><span id="geo-detail"></span>
+              <a href="https://github.com/komoot/photon" target="_blank" rel="noopener">Search by Photon</a>
+            </div>
+          </div>
+          <div class="map-footer">
+            <div class="plot-picker"><label for="plot-picker" id="plot-picker-label">Inspect plot</label><select id="plot-picker"></select></div>
+            <span id="map-h3">H3 resolution 11</span>
+          </div>
+        </section>
+        <aside class="right-column" aria-label="Selected cell or plot">
+          <section id="plot-overview" class="card plot-card" aria-live="polite"></section>
+          <section id="recommendation" class="card recommendation" aria-live="polite"></section>
+          <section id="cell-editor" class="card cell-editor" hidden aria-labelledby="cell-editor-title">
+            <h2 id="cell-editor-title">Cell settings</h2>
+            <form id="cell-form">
+              <label>Crop <select name="crop"></select></label>
+              <label>Sowing date <input name="sowingDate" type="date" required></label>
+              <label>Management plot <input name="managementPlot" maxlength="60" list="management-plots" placeholder="Unassigned"></label>
+              <button type="submit" class="primary-button">Save cell</button>
+            </form>
+            <datalist id="management-plots"></datalist>
+            <p id="cell-status" role="status"></p>
+          </section>
+        </aside>
+      </div>
+      <section id="trends" aria-labelledby="trends-heading" class="detail-section">
+        <div class="section-heading"><h2 id="trends-heading">Plot trends</h2><span id="trend-plot" class="section-context"></span></div>
+        <div class="card trends-card">
+          <div class="tab-strip" aria-label="Plot trend" role="tablist" id="trend-tabs"></div>
+          <div id="trend-body" role="tabpanel" tabindex="0"></div>
+        </div>
+      </section>
+      <section id="plan" aria-labelledby="plan-heading" class="detail-section">
+        <div class="section-heading"><h2 id="plan-heading">Irrigation plan</h2><span id="plan-plot" class="section-context"></span></div>
+        <div class="card plan-card">
+          <div class="plan-control">
+            <div><h3>16-day water balance</h3><p>Today and the next 15 days</p></div>
+            <div class="scenario-picker"><label for="scenario">Rainfall scenario</label><select id="scenario"></select></div>
+          </div>
+          <div id="plan-body"></div>
+        </div>
+      </section>
+      <footer class="footer"><span>Field Atlas · Farm digital twin</span><span>Synthetic weather, crops and sensor readings</span></footer>
+    </main>
+    <dialog id="controller-dialog" aria-labelledby="controller-title">
+      <div class="dialog-head"><div><p class="eyebrow">Device simulation</p><h2 id="controller-title">Controller payload</h2></div><button type="button" class="icon-button" id="close-dialog" aria-label="Close controller preview">×</button></div>
+      <p>Preview the recommendation an irrigation controller could receive.</p>
+      <pre id="payload"></pre>
+      <div class="dialog-actions"><span id="dispatch-status" role="status"></span><button type="button" id="dispatch" class="primary-button">Simulate dispatch</button></div>
+    </dialog>
+  </body>
+</html>
