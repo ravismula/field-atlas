@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#f7f8f4">
     <meta name="description" content="Explore an interactive farm digital twin and plot-by-plot irrigation decisions.">
     <title>Field Atlas · Farm digital twin</title>
-    <script type="module" crossorigin src="./assets/index-BjXCrQXu.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-B1fOAMUg.css">
+    <script type="module" crossorigin src="./assets/index-BsAMisZA.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DftG_4B0.css">
   </head>
   <body>
     <a class="skip" href="#main">Skip to farm overview</a>
@@ -18,6 +18,7 @@
           <a href="#main" aria-current="location">Farm overview</a>
           <a href="#trends">Plot trends</a>
           <a href="#plan">Irrigation plan</a>
+          <a href="#ask-unquery">Ask Unquery</a>
         </nav>
         <div class="topbar-meta"><span class="data-badge"><i></i> Demo data</span></div>
       </div>
@@ -156,7 +157,10 @@
         </aside>
       </div>
       <section id="trends" aria-labelledby="trends-heading" class="detail-section">
-        <div class="section-heading"><h2 id="trends-heading">Plot trends</h2><span id="trend-plot" class="section-context"></span></div>
+        <div class="section-heading">
+          <div><h2 id="trends-heading">Plot trends</h2><p class="integration-note">Data analytics powered by <strong>Obsrv</strong> · Demo</p></div>
+          <span id="trend-plot" class="section-context"></span>
+        </div>
         <div class="card trends-card">
           <div class="tab-strip" aria-label="Plot trend" role="tablist" id="trend-tabs"></div>
           <div id="trend-body" role="tabpanel" tabindex="0"></div>
@@ -170,6 +174,26 @@
             <div class="scenario-picker"><label for="scenario">Rainfall scenario</label><select id="scenario"></select></div>
           </div>
           <div id="plan-body"></div>
+        </div>
+      </section>
+      <section id="ask-unquery" class="detail-section" aria-labelledby="unquery-heading">
+        <div class="section-heading">
+          <div><h2 id="unquery-heading">Ask Unquery</h2><p class="integration-note">Chatbot powered by <strong>Unquery</strong> · Simulation</p></div>
+        </div>
+        <div class="card chat-card">
+          <div class="chat-selection">
+            <span>Current selection</span><strong class="chat-context"></strong>
+          </div>
+          <div class="chat-log" role="log" aria-label="Chat messages" tabindex="0">
+            <p class="chat-empty">Ask about the selected plot or cell. Replies use the selection and scenario shown when you send.</p>
+          </div>
+          <div class="chat-prompts" aria-label="Suggested questions"></div>
+          <form class="chat-form">
+            <label class="sr-only" for="unquery-question">Ask a question about the selected plot or cell</label>
+            <input id="unquery-question" name="question" placeholder="Ask about irrigation, weather, or crops" maxlength="280" required autocomplete="off">
+            <button type="submit" class="primary-button">Send</button>
+          </form>
+          <p class="chat-activity" role="status"></p>
         </div>
       </section>
       <footer class="footer"><span>Field Atlas · Farm digital twin</span><span>Synthetic weather, crops and sensor readings</span></footer>
