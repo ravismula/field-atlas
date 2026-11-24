@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#f7f8f4">
     <meta name="description" content="Explore an interactive farm digital twin and plot-by-plot irrigation decisions.">
     <title>Field Atlas · Farm digital twin</title>
-    <script type="module" crossorigin src="./assets/index-2bvhzYyb.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Ct3cX13Q.css">
+    <script type="module" crossorigin src="./assets/index-DZ9h6mOs.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CF9oZ1RF.css">
   </head>
   <body>
     <a class="skip" href="#main">Skip to farm overview</a>
@@ -21,7 +21,7 @@
           <a href="#ask-unquery">Ask Unquery</a>
         </nav>
         <div class="topbar-meta">
-          <a class="data-badge" href="#data-sources"><i></i> Demo data</a>
+          <a class="data-badge" href="#data-sources"><i></i> Data sources</a>
           <button type="button" id="guide-toggle" class="secondary-button" aria-pressed="false">Show guide</button>
         </div>
       </div>
@@ -38,7 +38,7 @@
           <div class="date-card">
             <span id="date-icon" aria-hidden="true"></span>
             <div>
-              <div class="with-guide" data-guide-point="date"><label for="scenario-date">Scenario date</label></div>
+              <div class="with-guide" data-guide-point="date"><label for="scenario-date">Farm date</label></div>
               <input id="scenario-date" type="date" min="0005-01-01" max="9999-12-16" required>
             </div>
           </div>
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="map-viewport" id="terrain-panel">
-            <canvas id="farm-map" role="img" aria-label="H3 map of the demo farm. Use the plot selector to choose a plot by keyboard." aria-describedby="map-caption"></canvas>
+            <canvas id="farm-map" role="img" aria-label="H3 farm map. Use the plot selector to choose a plot by keyboard." aria-describedby="map-caption"></canvas>
             <div class="map-layer">
               <label for="map-layer">Map layer</label>
               <select id="map-layer"><option value="moisture">Soil moisture</option><option value="crop">Crop type</option><option value="management" id="management-layer" hidden>Management plots</option></select>
@@ -161,7 +161,7 @@
       </div>
       <section id="trends" aria-labelledby="trends-heading" class="detail-section">
         <div class="section-heading">
-          <div><div class="with-guide" data-guide-point="trends"><h2 id="trends-heading">Plot trends</h2></div><p class="integration-note">Data analytics powered by <strong>Obsrv</strong> · Demo</p></div>
+          <div><div class="with-guide" data-guide-point="trends"><h2 id="trends-heading">Plot trends</h2></div><p class="integration-note"><strong>Obsrv</strong> analytics</p></div>
           <span id="trend-plot" class="section-context"></span>
         </div>
         <div class="card trends-card">
@@ -180,14 +180,14 @@
         </div>
       </section>
       <details id="data-sources" class="card data-provenance detail-section">
-        <summary>Data sources <span>Live maps and search · Simulated farm data</span></summary>
+        <summary>Data sources <span>Public lookups and farm inputs</span></summary>
         <dl>
-          <div><dt>Fetched on demand</dt><dd>Street tiles from OpenStreetMap and place search from Photon. Satellite view loads an EOX Sentinel-2 mosaic from 2016–2017.</dd></div>
-          <div><dt>Simulated</dt><dd>Preset soil types, moisture, crop and sowing records, weather history and forecasts, irrigation logs, recommendations, and Unquery replies.</dd></div>
-          <div><dt>Provided by you</dt><dd>Farm boundaries you draw, management plots you create, and cell settings you edit. The demo saves these in your browser.</dd></div>
+          <div><dt>Fetched on demand</dt><dd>OpenStreetMap tiles, Photon place search, NASA POWER regional weather history, and SoilGrids topsoil estimates. Satellite view loads an EOX Sentinel-2 mosaic from 2016–2017.</dd></div>
+          <div><dt>Scenario-generated</dt><dd>Preset soil types, moisture, crop and sowing records, the default weather charts, and irrigation logs. Irrigation recommendations and Unquery answers use those inputs. Controller tests run in the browser.</dd></div>
+          <div><dt>Provided by you</dt><dd>Farm boundaries you draw, management plots you create, and cell settings you edit. Field Atlas saves these in your browser.</dd></div>
         </dl>
       </details>
-      <footer class="footer"><span>Field Atlas · Farm digital twin</span><span>Synthetic weather, crops and sensor readings</span></footer>
+      <footer class="footer"><span>Field Atlas · Farm digital twin</span></footer>
     </main>
     <button type="button" class="chat-launcher" id="unquery-launcher" aria-controls="ask-unquery" aria-expanded="false">
       <span id="chat-launch-icon" aria-hidden="true"></span><span>Ask Unquery</span>
@@ -196,7 +196,6 @@
       <div class="chat-heading">
         <div>
           <div class="with-guide" data-guide-point="chat"><h2 id="unquery-heading">Ask Unquery</h2></div>
-          <p class="integration-note">Chatbot powered by <strong>Unquery</strong> · Simulation</p>
         </div>
         <button type="button" class="icon-button" id="unquery-close" aria-label="Close Unquery chat">×</button>
       </div>
@@ -220,10 +219,10 @@
       <h3></h3><p></p>
     </aside>
     <dialog id="controller-dialog" aria-labelledby="controller-title">
-      <div class="dialog-head"><div><p class="eyebrow">Device simulation</p><h2 id="controller-title">Controller payload</h2></div><button type="button" class="icon-button" id="close-dialog" aria-label="Close controller preview">×</button></div>
+      <div class="dialog-head"><h2 id="controller-title">Controller payload</h2><button type="button" class="icon-button" id="close-dialog" aria-label="Close controller preview">×</button></div>
       <p>Preview the recommendation an irrigation controller could receive.</p>
       <pre id="payload"></pre>
-      <div class="dialog-actions"><span id="dispatch-status" role="status"></span><button type="button" id="dispatch" class="primary-button">Simulate dispatch</button></div>
+      <div class="dialog-actions"><span id="dispatch-status" role="status"></span><button type="button" id="dispatch" class="primary-button">Test dispatch</button></div>
     </dialog>
   </body>
 </html>
